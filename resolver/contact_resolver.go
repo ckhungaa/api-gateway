@@ -36,7 +36,7 @@ func (r *ContactResolver) UserName(ctx context.Context) string {
 }
 
 func (r *ContactResolver) UserAlias(ctx context.Context) string  {
-	return r.contact.UserName
+	return r.contact.UserAlias
 }
 
 func (r *ContactResolver) AvatarId(ctx context.Context) string {

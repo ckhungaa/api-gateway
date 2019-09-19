@@ -7,9 +7,9 @@ type Contact {
     ownerId: String!
     userId: String!
     userName: String!
-    userAlias: String
-    avatarId: String
-    phoneNumber: String
+    userAlias: String!
+    avatarId: String!
+    phoneNumber: String!
     contactType: ContactType!
 }
 enum ContactType {

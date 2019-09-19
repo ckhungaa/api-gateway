@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	con, err := grpc.Dial("localhost:8080", grpc.WithInsecure())
+	con, err := grpc.Dial("localhost:28080", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("failed to connect to contact server")
 	}
@@ -30,5 +30,5 @@ func main() {
 	contactSchema := graphql.MustParseSchema( schemaDef, &queryResolver, graphql.UseStringDescriptions())
 
 	http.Handle("/query", &relay.Handler{Schema: contactSchema})
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	log.Fatal(http.ListenAndServe(":28081", nil))
 }

@@ -13,7 +13,8 @@ import (
 )
 
 func main() {
-	con, err := grpc.Dial("localhost:28080", grpc.WithInsecure())
+	log.Printf("api-gateway start begin 3")
+	con, err := grpc.Dial("doki-contact.app:8888", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("failed to connect to contact server")
 	}
@@ -29,6 +30,24 @@ func main() {
 
 	contactSchema := graphql.MustParseSchema( schemaDef, &queryResolver, graphql.UseStringDescriptions())
 
-	http.Handle("/query", &relay.Handler{Schema: contactSchema})
-	log.Fatal(http.ListenAndServe(":28081", nil))
+	http.Handle("/", loggingFilter(nil))
+	http.Handle("/query", loggingFilter(&relay.Handler{Schema: contactSchema}))
+	log.Printf("api-gateway start end")
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+func loggingFilter(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("receive request:%s\n",r.URL.String())
+		if next != nil {
+			next.ServeHTTP(w, r)
+		}
+	})
+}
+
+type loggingHandler struct {
+}
+
+func (h *loggingHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	log.Printf("receive request:%s\n",r.URL.String())
 }

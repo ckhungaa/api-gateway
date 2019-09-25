@@ -1,0 +1,27 @@
+apiVersion: skaffold/v1beta14
+kind: Config
+
+profiles:
+  - name: local
+    activation:
+      - kubeContext: minikube
+    build:
+      tagPolicy:
+        dateTime:
+          format: "2006-01-02_15-04-05"
+          timezone: "Local"
+      artifacts:
+        - image: minikube/k8s-skaffold/doki-api-gateway
+    deploy:
+      helm:
+        releases:
+          - name: doki-api-gateway
+            chartPath: resources/helm
+            namespace: app
+            values:
+              image: minikube/k8s-skaffold/doki-api-gateway
+            setValues:
+              name: doki-api-gateway
+              replicas: 1
+              port: 8080
+              imagePullPolicy: Never

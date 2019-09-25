@@ -2,10 +2,34 @@ package schema
 
 import (
 	"context"
-	"io/ioutil"
 )
 
+const fileContact = `
+schema {
+    query: Query
+}
+
+type Contact {
+    id: ID!
+    ownerId: String!
+    userId: String!
+    userName: String!
+    userAlias: String!
+    avatarId: String!
+    phoneNumber: String!
+    contactType: ContactType!
+}
+enum ContactType {
+    Admin,
+    Subscriber
+    Friend
+}
+
+type Query {
+    contact(id: ID!): Contact
+}
+`
+
 func String(ctx context.Context) (string, error) {
-	schemaBytes, err := ioutil.ReadFile("./schema/schema.graphql")
-	return string(schemaBytes), err
+	return fileContact, nil
 }

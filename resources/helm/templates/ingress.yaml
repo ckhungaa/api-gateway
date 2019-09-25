@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-    - host: local.doki
+    - host: {{ .Values.ingressHost }}
       http:
         paths:
           - path: /api(/|$)(.*)

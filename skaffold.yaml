@@ -25,3 +25,4 @@ profiles:
               replicas: 1
               port: 8080
               imagePullPolicy: Never
+              ingressHost: local.doki
